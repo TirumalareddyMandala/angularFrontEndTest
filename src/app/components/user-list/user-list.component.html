@@ -1,0 +1,84 @@
+<div class="row">
+  <div class="col-sm-4">
+    <div class="fw-bolder fs-2">All Users.</div>
+  </div>
+  <div class="col-md-4 col-sm-1"></div>
+  <div class="col">
+    <form class="d-flex">
+      <input class="form-control me-sm-2" [(ngModel)]='searchText' type="text" name="name" placeholder="Search by fullname" (change)="searchByName()">
+      <button type="button" (click)='cancelSearch()' *ngIf='searchText' class="btn btn-secondary mt-2 float-end">x</button>
+    </form>
+  </div>
+</div>
+
+
+<div class="row mt-2">
+  <div class="col-sm-12 col-md-4 p-2" *ngFor="let user of users; let i = index">
+    <div class="card" *ngIf='i != editIndex'>
+      <div class="card-body">
+        <h4 class="card-title">{{ user.name }}, {{ user.age }} yrs</h4>
+        <h6 class="card-subtitle mb-2 text-muted">{{ user.email }}</h6>
+        <p class="card-text">{{ user.bio }}</p>
+        <button type="button" (click)='editUser(user, i)' class="btn btn-warning mt-2 float-end">Edit</button>
+        <button type="button" (click)='deleteUser(user.id)' class="btn btn-danger mt-2 float-start">Delete</button>
+      </div>
+    </div>
+
+    <div class="card" *ngIf='i === editIndex'>
+      <div class="card-body">
+        <form>
+          <div class="row">
+            <div class="col">
+              <input type="text" [(ngModel)]='editUserObj.name' name="name" class="form-control" placeholder="Full name">
+            </div>
+            <div class="col">
+              <input type="number" [(ngModel)]='editUserObj.age' name="age" class="form-control" placeholder="Age in yrs">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <input type="email" [(ngModel)]='editUserObj.email' name="email" class="form-control" placeholder="Email Address">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <textarea [(ngModel)]='editUserObj.bio' name="bio" class="form-control" placeholder="About" rows="3"></textarea>
+            </div>
+          </div>
+        </form>
+        <button type="button" (click)='updateUser(user.id)' class="btn btn-primary mt-2 float-end">Save</button>
+        <button type="button" (click)='cancelUpdate()' class="btn btn-light mt-2 float-start">Cancel</button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-sm-12 col-md-4" *ngIf='!searchText'>
+    <div class="card">
+      <div class="card-body">
+        <form>
+          <div class="row">
+            <div class="col">
+              <input type="text" [(ngModel)]='createUserObj.name' name="name" class="form-control" placeholder="Full name">
+            </div>
+            <div class="col">
+              <input type="number" [(ngModel)]='createUserObj.age' name="age" class="form-control" placeholder="Age in yrs">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <input type="email" [(ngModel)]='createUserObj.email' name="email" class="form-control" placeholder="Email Address">
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col">
+              <textarea [(ngModel)]='createUserObj.bio' name="bio" class="form-control" placeholder="About" rows="3"></textarea>
+            </div>
+          </div>
+        </form>
+        <button type="button" (click)='createUser()' class="btn btn-primary mt-2 float-end add-button" [disabled]='!(createUserObj.name && createUserObj.email && createUserObj.age && createUserObj.bio)'>Add</button>
+      </div>
+    </div>
+  </div>
+
+</div>
